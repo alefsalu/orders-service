@@ -1,0 +1,21 @@
+security:
+    providers:
+        jwt_users:
+            id: App\Infrastructure\Security\JwtUserProvider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        public_endpoints:
+            pattern: ^/(health|metrics)
+            security: false
+        main:
+            lazy: true
+            stateless: true
+            custom_authenticator: App\Infrastructure\Security\JwtAuthenticator
+
+    access_control:
+        - { path: ^/health, roles: PUBLIC_ACCESS }
+        - { path: ^/metrics, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1, roles: IS_AUTHENTICATED_FULLY }
