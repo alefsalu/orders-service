@@ -1,0 +1,67 @@
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    environment:
+      APP_ENV: test
+      APP_DEBUG: "1"
+      DATABASE_URL: "mysql://orders_test_user:orders_test_pass@mysql-test:3306/orders_test_db?serverVersion=8.0.36&charset=utf8mb4"
+      MONGODB_URI: "mongodb://mongo-test:27017"
+      MONGODB_DATABASE: "orders_test"
+      MESSENGER_TRANSPORT_DSN: "amqp://guest:guest@rabbitmq-test:5672/%2f/messages"
+      RABBITMQ_HOST: "rabbitmq-test"
+      RABBITMQ_PORT: "5672"
+      RABBITMQ_USER: "guest"
+      RABBITMQ_PASSWORD: "guest"
+      RABBITMQ_EXCHANGE: "orders.events"
+      JWT_PUBLIC_KEY_PATH: "/app/keys/public.pem"
+      JWT_ISSUER: "wallet-api"
+      JWT_AUDIENCE: "portfolio"
+    volumes:
+      - .:/app
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+      mongo-test:
+        condition: service_healthy
+      rabbitmq-test:
+        condition: service_healthy
+
+  mysql-test:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: orders_test_db
+      MYSQL_USER: orders_test_user
+      MYSQL_PASSWORD: orders_test_pass
+    tmpfs:
+      - /var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "orders_test_user", "-porders_test_pass"]
+      interval: 3s
+      timeout: 2s
+      retries: 15
+
+  mongo-test:
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_DATABASE: orders_test
+    tmpfs:
+      - /data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 3s
+      timeout: 2s
+      retries: 15
+
+  rabbitmq-test:
+    image: rabbitmq:3.13-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 3s
+      timeout: 2s
+      retries: 15

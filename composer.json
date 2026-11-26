@@ -1,0 +1,86 @@
+{
+    "name": "portfolio/orders-service",
+    "description": "Orders Service microservice in PHP 8.3 and Symfony 7 with pure DDD, CQRS, Doctrine XML mappings, MongoDB projections, and transactional outbox",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.3",
+        "ext-bcmath": "*",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "doctrine/doctrine-bundle": "^2.12",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/orm": "^3.0",
+        "lcobucci/jwt": "^5.3",
+        "mongodb/mongodb": "^1.18",
+        "symfony/amqp-messenger": "^7.1",
+        "symfony/console": "^7.1",
+        "symfony/dotenv": "^7.1",
+        "symfony/flex": "^2.4",
+        "symfony/framework-bundle": "^7.1",
+        "symfony/messenger": "^7.1",
+        "symfony/monolog-bundle": "^3.10",
+        "symfony/property-access": "^7.1",
+        "symfony/property-info": "^7.1",
+        "symfony/runtime": "^7.1",
+        "symfony/security-bundle": "^7.1",
+        "symfony/serializer": "^7.1",
+        "symfony/uid": "^7.1",
+        "symfony/validator": "^7.1",
+        "symfony/yaml": "^7.1"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.59",
+        "phpstan/phpstan": "^1.11",
+        "phpunit/phpunit": "^11.0",
+        "qossmic/deptrac": "^2.0",
+        "symfony/browser-kit": "^7.1",
+        "symfony/css-selector": "^7.1",
+        "symfony/phpunit-bridge": "^7.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*",
+        "symfony/polyfill-php83": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "7.1.*"
+        }
+    }
+}
